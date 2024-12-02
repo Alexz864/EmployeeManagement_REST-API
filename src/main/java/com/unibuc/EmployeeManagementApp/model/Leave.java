@@ -19,11 +19,6 @@ public class Leave {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //Many Leave records can be assigned to an Employee
-    @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee;
-
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
@@ -32,6 +27,11 @@ public class Leave {
 
     @Column(nullable = false)
     private String reason;
+
+    //Many Leave records can be assigned to an Employee
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

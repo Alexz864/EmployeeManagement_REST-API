@@ -43,7 +43,7 @@ public class Employee {
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     private Salary salary;
 
-    //One employee can have Many Attendances records
+    //One employee can have Many Attendance records
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<Attendance> attendances;
 

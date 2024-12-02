@@ -19,11 +19,6 @@ public class Performance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //Many Performance records can be assigned to an Employee
-    @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee;
-
     @Column(nullable = false)
     private LocalDate reviewDate;
 
@@ -33,4 +28,8 @@ public class Performance {
     @Column(length = 500)
     private String comments;
 
+    //Many Performance records can be assigned to an Employee
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 }

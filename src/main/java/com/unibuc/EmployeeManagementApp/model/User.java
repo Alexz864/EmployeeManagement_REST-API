@@ -20,6 +20,9 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(nullable = false)
+    private String password;
+
     //Many Users can have the same Role
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
