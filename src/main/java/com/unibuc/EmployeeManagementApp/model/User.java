@@ -3,6 +3,7 @@ package com.unibuc.EmployeeManagementApp.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity //Define the class as entity
+@Builder
 @Table(name = "users")
 public class User {
 

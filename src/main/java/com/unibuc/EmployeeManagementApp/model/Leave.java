@@ -3,6 +3,7 @@ package com.unibuc.EmployeeManagementApp.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity //Define the class as entity
+@Builder
 @Table(name = "leaves")
 public class Leave {
 

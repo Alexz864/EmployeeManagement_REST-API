@@ -3,6 +3,7 @@ package com.unibuc.EmployeeManagementApp.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity //Define the class as entity
+@Builder
 @Table(name = "performances")
 public class Performance {
 
@@ -19,13 +21,13 @@ public class Performance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDate reviewDate;
 
     @Column(nullable = false)
     private Integer rating; //1 to 5 scale
 
-    @Column(length = 500)
+    @Column(length = 1000)
     private String comments;
 
     //Many Performance records can be assigned to an Employee
