@@ -2,15 +2,14 @@ package com.unibuc.EmployeeManagementApp.dto;
 
 import com.unibuc.EmployeeManagementApp.model.Employee;
 import com.unibuc.EmployeeManagementApp.model.User;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
-@Data
+//Role POJO
+@Data   //Implements @Getter, @Setter and @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -20,8 +19,10 @@ public class RoleDto {
 
     private String roleName;
 
+    //Change to DTO
     private List<Employee> employees;
 
+    //Change to DTO
     private List<User> users;
 
 }

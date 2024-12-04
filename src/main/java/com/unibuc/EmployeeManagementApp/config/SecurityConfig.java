@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
+//Configure Spring Security
 @Configuration
 public class SecurityConfig {
 
@@ -15,8 +16,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) //Disable CSRF(Cross-Site Request Forgery)
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/roles").permitAll()  //Allow unauthenticated access to /roles
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()  //Allow unauthenticated access
                 );
 
         return http.build();

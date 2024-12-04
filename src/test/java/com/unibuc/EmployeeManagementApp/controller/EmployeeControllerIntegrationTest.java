@@ -1,6 +1,7 @@
 package com.unibuc.EmployeeManagementApp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unibuc.EmployeeManagementApp.dto.EmployeeDto;
 import com.unibuc.EmployeeManagementApp.model.Role;
 import com.unibuc.EmployeeManagementApp.utils.TestDataUtil;
 import org.junit.jupiter.api.Test;
@@ -19,47 +20,56 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-public class RoleControllerIntegrationTest {
+public class EmployeeControllerIntegrationTest {
 
     private final MockMvc mockMvc;
 
     private final ObjectMapper objectMapper;
 
-    @Autowired
-    public RoleControllerIntegrationTest(MockMvc mockMvc) {
+    @Autowired  //Inject MockMvc in constructor
+    public EmployeeControllerIntegrationTest(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
         this.objectMapper = new ObjectMapper();
     }
 
     @Test
-    public void testThatCreateRoleSuccessfullyReturnsHttp201Created() throws Exception {
-        Role testRoleA = TestDataUtil.createTestRoleA();
-        testRoleA.setId(null);
-        String roleJSON = objectMapper.writeValueAsString(testRoleA);
+    public void testThatCreateEmployeeReturnsHttpStatus201Created() throws Exception {
+
+        EmployeeDto testEmployeeDto = TestDataUtil.createTestEmployeeDtoA(null);
+
+        String employeeJSON = objectMapper.writeValueAsString(testEmployeeDto);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/roles")
+                MockMvcRequestBuilders.post("/employees")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(roleJSON)
+                        .content(employeeJSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isCreated()
         );
     }
 
     @Test
-    public void testThatCreateRoleSuccessfullyReturnsSavedRole() throws Exception {
-        Role testRoleA = TestDataUtil.createTestRoleA();
-        testRoleA.setId(null);
-        String roleJSON = objectMapper.writeValueAsString(testRoleA);
+    public void testThatCreateEmployeeSuccessfullyReturnsSavedEmployee() throws Exception {
+        EmployeeDto testEmployeeDto = TestDataUtil.createTestEmployeeDtoA(null);
+
+        String employeeJSON = objectMapper.writeValueAsString(testEmployeeDto);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/roles")
+                MockMvcRequestBuilders.post("/employees")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(roleJSON)
+                        .content(employeeJSON)
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.id").isNumber()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.roleName").value("Admin")
+                MockMvcResultMatchers.jsonPath("$.firstName").value("John")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.lastName").value("Doe")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.email").value("johnDoe@gmail.com")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.department").value("IT")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.designation").value("Developer")
         );
     }
 

@@ -17,20 +17,21 @@ public class RoleController {
 
     private final Mapper<Role, RoleDto> roleMapper;
 
-    //constructor
+    //Inject RoleService & RoleMapper to constructor
     public RoleController(RoleService roleService, Mapper<Role, RoleDto> roleMapper) {
         this.roleService = roleService;
         this.roleMapper = roleMapper;
     }
 
-    @PostMapping(path = "/roles")   //Define the endpoint
-    public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto role) {
-        Role roleEntity =  roleMapper.mapFrom(role);    //convert Dto object to Entity
-        Role savedRoleEntity = roleService.createRole(roleEntity);  //create and save object Entity
+    @PostMapping(path = "/roles")   //Define create Role endpoint
+    public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto roleDto) {
+        Role roleEntity =  roleMapper.mapFrom(roleDto);    //Convert Dto object to Entity object
+        Role savedRoleEntity = roleService.createRole(roleEntity);  //Create Entity object
+        RoleDto savedRoleDto = roleMapper.mapTo(savedRoleEntity);   //Convert Entity object to Dto object
         return new ResponseEntity<>(
-                roleMapper.mapTo(savedRoleEntity),
+                savedRoleDto,
                 HttpStatus.CREATED
-        );   //convert from Entity to Dto and return
+        );
     }
 
 }

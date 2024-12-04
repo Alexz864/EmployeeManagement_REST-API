@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 @Data   //Implements @Getter, @Setter and @ToString
@@ -27,17 +26,17 @@ public class Employee {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(unique = true ,nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
-
-    @Column(nullable = false)
-    private String designation;
 
     @Column(nullable = false)
     private String department;
 
+    @Column(nullable = false)
+    private String designation;
+
     //Many employees can have the same Role
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private Role role;
 

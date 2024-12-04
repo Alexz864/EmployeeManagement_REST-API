@@ -15,11 +15,12 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
 
-    @Autowired  //inject RoleRepository
+    @Autowired  //Inject RoleRepository
     public RoleServiceImpl(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 
+    @Override   //Create Role
     public Role createRole(Role roleEntity) {
         return roleRepository.save(roleEntity);
     }
