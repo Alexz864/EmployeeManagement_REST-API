@@ -3,6 +3,7 @@ package com.unibuc.EmployeeManagementApp.utils;
 import com.unibuc.EmployeeManagementApp.dto.EmployeeDto;
 import com.unibuc.EmployeeManagementApp.dto.RoleDto;
 import com.unibuc.EmployeeManagementApp.dto.SalaryDto;
+import com.unibuc.EmployeeManagementApp.dto.UserDto;
 import com.unibuc.EmployeeManagementApp.model.Employee;
 import com.unibuc.EmployeeManagementApp.model.Role;
 
@@ -61,6 +62,15 @@ public class TestDataUtil {
         return SalaryDto.builder()
                 .amount(BigDecimal.valueOf(5000))
                 .lastPaidDate(LocalDate.now())
+                .employee(employeeDto)
+                .build();
+    }
+
+    public static UserDto createTestUserDtoA(final RoleDto roleDto, final EmployeeDto employeeDto) {
+        return UserDto.builder()
+                .username("admin")
+                .password("root")
+                .role(roleDto)
                 .employee(employeeDto)
                 .build();
     }

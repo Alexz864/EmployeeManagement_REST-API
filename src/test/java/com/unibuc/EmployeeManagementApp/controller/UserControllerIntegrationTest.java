@@ -1,8 +1,7 @@
 package com.unibuc.EmployeeManagementApp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.unibuc.EmployeeManagementApp.dto.SalaryDto;
+import com.unibuc.EmployeeManagementApp.dto.UserDto;
 import com.unibuc.EmployeeManagementApp.utils.TestDataUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,55 +14,55 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import java.math.BigDecimal;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-public class SalaryControllerIntegrationTest {
+public class UserControllerIntegrationTest {
 
     private final MockMvc mockMvc;
 
     private final ObjectMapper objectMapper;
 
     @Autowired  //Inject MockMvc in constructor
-    public SalaryControllerIntegrationTest(MockMvc mockMvc) {
+    public UserControllerIntegrationTest(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
         this.objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Test
-    public void testThatCreateSalaryReturnsHttpStatus201Created() throws Exception {
+    public void testThatCreateUserReturnsHttpStatus201Created() throws Exception {
 
-        SalaryDto testSalaryDto = TestDataUtil.createTestSalaryDtoA(null);
+        UserDto testUserDto = TestDataUtil.createTestUserDtoA(null, null);
 
-        String salaryJSON = objectMapper.writeValueAsString(testSalaryDto);
+        String userJSON = objectMapper.writeValueAsString(testUserDto);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/salaries")
+                MockMvcRequestBuilders.post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(salaryJSON)
+                        .content(userJSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isCreated()
         );
     }
 
     @Test
-    public void testThatCreateSalarySuccessfullyReturnsSavedSalary() throws Exception {
-        SalaryDto testSalaryDto = TestDataUtil.createTestSalaryDtoA(null);
+    public void testThatCreateUserSuccessfullyReturnsSavedUser() throws Exception {
+        UserDto testUserDto = TestDataUtil.createTestUserDtoA(null, null);
 
-        String salaryJSON = objectMapper.writeValueAsString(testSalaryDto);
+        String userJSON = objectMapper.writeValueAsString(testUserDto);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/salaries")
+                MockMvcRequestBuilders.post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(salaryJSON)
+                        .content(userJSON)
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.id").isNumber()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.amount").value(BigDecimal.valueOf(5000))
+                MockMvcResultMatchers.jsonPath("$.username").value("admin")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.password").value("root")
         );
     }
 }

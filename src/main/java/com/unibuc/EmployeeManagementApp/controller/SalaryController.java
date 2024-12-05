@@ -26,7 +26,7 @@ public class SalaryController {
     @PostMapping(path = "/salaries")   //Define create Salary endpoint
     public ResponseEntity<SalaryDto> createSalary(@RequestBody SalaryDto salaryDto) {
         Salary salaryEntity = salaryMapper.mapFrom(salaryDto);  //Convert Dto object to Entity object
-        Salary savedSalaryEntity = salaryService.createSalary(salaryEntity);    //Create Entity object
+        Salary savedSalaryEntity = salaryService.createSalary(salaryEntity);    //Create Salary Entity object
         SalaryDto savedSalaryDto = salaryMapper.mapTo(savedSalaryEntity);   //Convert Entity object to Dto object
         return new ResponseEntity<>(
                 savedSalaryDto,

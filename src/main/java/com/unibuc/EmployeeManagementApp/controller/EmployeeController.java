@@ -26,7 +26,7 @@ public class EmployeeController {
     @PostMapping(path = "/employees")  //Define create Employee endpoint
     public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto) {
         Employee employeeEntity = employeeMapper.mapFrom(employeeDto);  //Convert Dto object to Entity object
-        Employee savedEmployeeEntity = employeeService.createEmployee(employeeEntity);  //Create object Entity
+        Employee savedEmployeeEntity = employeeService.createEmployee(employeeEntity);  //Create Employee Entity object
         EmployeeDto savedEmployeeDto = employeeMapper.mapTo(savedEmployeeEntity);   //Convert Entity object to Dto object
         return new ResponseEntity<>(
                 savedEmployeeDto,

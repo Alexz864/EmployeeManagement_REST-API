@@ -26,7 +26,7 @@ public class RoleController {
     @PostMapping(path = "/roles")   //Define create Role endpoint
     public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto roleDto) {
         Role roleEntity =  roleMapper.mapFrom(roleDto);    //Convert Dto object to Entity object
-        Role savedRoleEntity = roleService.createRole(roleEntity);  //Create Entity object
+        Role savedRoleEntity = roleService.createRole(roleEntity);  //Create Role Entity object
         RoleDto savedRoleDto = roleMapper.mapTo(savedRoleEntity);   //Convert Entity object to Dto object
         return new ResponseEntity<>(
                 savedRoleDto,
