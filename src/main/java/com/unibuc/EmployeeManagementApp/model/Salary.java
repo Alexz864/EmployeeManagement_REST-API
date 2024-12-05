@@ -1,4 +1,3 @@
-//Create Salary model in the database
 package com.unibuc.EmployeeManagementApp.model;
 
 import jakarta.persistence.*;
@@ -10,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+//Create Salary model in the database
 @Data   //Implements @Getter, @Setter and @ToString
 @NoArgsConstructor
 @AllArgsConstructor

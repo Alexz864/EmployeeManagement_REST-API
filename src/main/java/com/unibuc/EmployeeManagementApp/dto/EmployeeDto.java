@@ -28,8 +28,7 @@ public class EmployeeDto {
 
     private RoleDto role;
 
-    //Change to DTO
-    private Salary salary;
+    private SalaryDto salary;
 
     //Change to DTO
     private List<Attendance> attendances;

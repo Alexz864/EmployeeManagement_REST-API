@@ -2,8 +2,12 @@ package com.unibuc.EmployeeManagementApp.utils;
 
 import com.unibuc.EmployeeManagementApp.dto.EmployeeDto;
 import com.unibuc.EmployeeManagementApp.dto.RoleDto;
+import com.unibuc.EmployeeManagementApp.dto.SalaryDto;
 import com.unibuc.EmployeeManagementApp.model.Employee;
 import com.unibuc.EmployeeManagementApp.model.Role;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class TestDataUtil {
 
@@ -42,14 +46,22 @@ public class TestDataUtil {
                 .build();
     }
 
-    public static EmployeeDto createTestEmployeeDtoA(final RoleDto role) {
+    public static EmployeeDto createTestEmployeeDtoA(final RoleDto roleDto) {
         return EmployeeDto.builder()
                 .firstName("John")
                 .lastName("Doe")
                 .email("johnDoe@gmail.com")
                 .department("IT")
                 .designation("Developer")
-                .role(role)
+                .role(roleDto)
+                .build();
+    }
+
+    public static SalaryDto createTestSalaryDtoA(final EmployeeDto employeeDto) {
+        return SalaryDto.builder()
+                .amount(BigDecimal.valueOf(5000))
+                .lastPaidDate(LocalDate.now())
+                .employee(employeeDto)
                 .build();
     }
 

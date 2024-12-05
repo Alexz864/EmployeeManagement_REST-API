@@ -6,8 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
-//Configure Spring Security
-@Configuration
+@Configuration  //Configure Spring Security
 public class SecurityConfig {
 
     @Bean

@@ -1,30 +1,30 @@
 package com.unibuc.EmployeeManagementApp.mapper.impl;
 
-import com.unibuc.EmployeeManagementApp.dto.RoleDto;
+import com.unibuc.EmployeeManagementApp.dto.SalaryDto;
 import com.unibuc.EmployeeManagementApp.mapper.Mapper;
-import com.unibuc.EmployeeManagementApp.model.Role;
+import com.unibuc.EmployeeManagementApp.model.Salary;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoleMapper implements Mapper<Role, RoleDto> {
+public class SalaryMapper implements Mapper<Salary, SalaryDto> {
 
     private final ModelMapper modelMapper;
 
     //Inject ModelMapper in constructor
-    public RoleMapper(ModelMapper modelMapper) {
+    public SalaryMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
     //Convert Entity object to Dto object
     @Override
-    public RoleDto mapTo(Role role) {
-        return modelMapper.map(role, RoleDto.class);
+    public SalaryDto mapTo(Salary salary) {
+        return modelMapper.map(salary, SalaryDto.class);
     }
 
     //Convert Dto object to Entity object
     @Override
-    public Role mapFrom(RoleDto roleDto) {
-        return modelMapper.map(roleDto, Role.class);
+    public Salary mapFrom(SalaryDto salaryDto) {
+        return modelMapper.map(salaryDto, Salary.class);
     }
 }

@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmployeeMapper implements Mapper<Employee, EmployeeDto> {
 
-    private final ModelMapper modelMapper;    //Inject ModelMapper
+    private final ModelMapper modelMapper;
 
-    //Constructor
+    //Inject ModelMapper in constructor
     public EmployeeMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
