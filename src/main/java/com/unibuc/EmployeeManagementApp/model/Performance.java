@@ -1,4 +1,3 @@
-//Create Performance model in the database
 package com.unibuc.EmployeeManagementApp.model;
 
 import jakarta.persistence.*;
@@ -6,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
+//Create Performance model in the database
 @Data   //Implements @Getter, @Setter and @ToString
 @NoArgsConstructor
 @AllArgsConstructor

@@ -11,7 +11,7 @@ public class RoleMapper implements Mapper<Role, RoleDto> {
 
     private final ModelMapper modelMapper;
 
-    //Inject ModelMapper in constructor
+    //Inject ModelMapper Bean in constructor
     public RoleMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }

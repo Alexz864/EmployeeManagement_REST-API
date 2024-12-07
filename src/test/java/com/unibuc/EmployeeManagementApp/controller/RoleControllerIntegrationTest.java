@@ -1,6 +1,7 @@
 package com.unibuc.EmployeeManagementApp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unibuc.EmployeeManagementApp.dto.RoleDto;
 import com.unibuc.EmployeeManagementApp.model.Role;
 import com.unibuc.EmployeeManagementApp.utils.TestDataUtil;
 import org.junit.jupiter.api.Test;
@@ -33,9 +34,9 @@ public class RoleControllerIntegrationTest {
 
     @Test
     public void testThatCreateRoleSuccessfullyReturnsHttp201Created() throws Exception {
-        Role testRoleA = TestDataUtil.createTestRoleA();
-        testRoleA.setId(null);
-        String roleJSON = objectMapper.writeValueAsString(testRoleA);
+        RoleDto testRoleDtoA = TestDataUtil.createTestRoleDtoA();
+        testRoleDtoA.setId(null);
+        String roleJSON = objectMapper.writeValueAsString(testRoleDtoA);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/roles")
@@ -48,9 +49,9 @@ public class RoleControllerIntegrationTest {
 
     @Test
     public void testThatCreateRoleSuccessfullyReturnsSavedRole() throws Exception {
-        Role testRoleA = TestDataUtil.createTestRoleA();
-        testRoleA.setId(null);
-        String roleJSON = objectMapper.writeValueAsString(testRoleA);
+        RoleDto testRoleDtoA = TestDataUtil.createTestRoleDtoA();
+        testRoleDtoA.setId(null);
+        String roleJSON = objectMapper.writeValueAsString(testRoleDtoA);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/roles")

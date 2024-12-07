@@ -1,4 +1,3 @@
-//Create Attendance model in the database
 package com.unibuc.EmployeeManagementApp.model;
 
 import jakarta.persistence.*;
@@ -6,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
+//Create Attendance model in the database
 @Data   //Implements @Getter, @Setter and @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,7 +22,7 @@ public class Attendance {
 
     //Many Attendances can be assigned to One Employee
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @Column(nullable = false)

@@ -1,4 +1,3 @@
-//Create User model in the database
 package com.unibuc.EmployeeManagementApp.model;
 
 import jakarta.persistence.*;
@@ -7,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//Create User model in the database
 @Data   //Implements @Getter, @Setter and @ToString
 @NoArgsConstructor
 @AllArgsConstructor
