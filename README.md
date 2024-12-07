@@ -1,6 +1,6 @@
 # EmployeeManagement_REST-API
 
-## Business domain: Ticket selling platform
+## Business domain: Employee management platform
 <p>An Employee Management System (EMS) solves the problem of efficiently organizing and managing employee-related information, tasks, and processes within an organization. It simplifies HR functions like tracking employee details, managing payroll, attendance, performance, and communication, while reducing manual errors and improving productivity. By centralizing data, an EMS ensures better decision-making, compliance, and employee satisfaction.</p>
 
 ## Business Requirements:
