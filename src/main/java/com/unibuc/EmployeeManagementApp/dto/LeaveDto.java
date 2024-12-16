@@ -1,6 +1,6 @@
 package com.unibuc.EmployeeManagementApp.dto;
 
-import com.unibuc.EmployeeManagementApp.model.Employee;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.unibuc.EmployeeManagementApp.model.Leave;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-// Leave POJO
+//Leave POJO
 @Data   //Implements @Getter, @Setter and @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,8 +19,10 @@ public class LeaveDto {
 
     private Long id;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate startDate;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate endDate;
 
     private String reason;

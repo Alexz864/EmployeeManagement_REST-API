@@ -66,4 +66,13 @@ public class TestDataUtil {
                 .build();
     }
 
+    public static PerformanceDto createTestPerformanceDtoA(final EmployeeDto employeeDto) {
+        return PerformanceDto.builder()
+                .employee(employeeDto)
+                .reviewDate(LocalDate.now())
+                .rating(5)
+                .comments("Good work")
+                .build();
+    }
+
 }
