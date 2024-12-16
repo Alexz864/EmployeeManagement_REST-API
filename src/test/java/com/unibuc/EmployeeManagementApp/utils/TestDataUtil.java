@@ -2,6 +2,7 @@ package com.unibuc.EmployeeManagementApp.utils;
 
 import com.unibuc.EmployeeManagementApp.dto.*;
 import com.unibuc.EmployeeManagementApp.model.Employee;
+import com.unibuc.EmployeeManagementApp.model.Leave;
 import com.unibuc.EmployeeManagementApp.model.Role;
 
 import java.math.BigDecimal;
@@ -52,6 +53,16 @@ public class TestDataUtil {
                 .employee(employeeDto)
                 .attendanceDate(LocalDate.now())
                 .present(true)
+                .build();
+    }
+
+    public static LeaveDto createTestLeaveDtoA(final EmployeeDto employeeDto) {
+        return LeaveDto.builder()
+                .employee(employeeDto)
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.of(2024, 12, 20))
+                .reason("Medical appointment")
+                .status(Leave.LeaveStatus.PENDING)
                 .build();
     }
 

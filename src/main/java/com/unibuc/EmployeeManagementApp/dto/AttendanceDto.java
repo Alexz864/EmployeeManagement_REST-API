@@ -1,5 +1,6 @@
 package com.unibuc.EmployeeManagementApp.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class AttendanceDto {
 
     private EmployeeDto employee;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate attendanceDate;
 
     private Boolean present;

@@ -19,10 +19,8 @@ public class RoleDto {
 
     private String roleName;
 
-    //Change to DTO
-    private List<Employee> employees;
+    private List<EmployeeDto> employees;
 
-    //Change to DTO
-    private List<User> users;
+    private List<UserDto> users;
 
 }

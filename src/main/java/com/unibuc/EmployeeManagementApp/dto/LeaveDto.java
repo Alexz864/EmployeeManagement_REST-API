@@ -1,46 +1,38 @@
-package com.unibuc.EmployeeManagementApp.model;
+package com.unibuc.EmployeeManagementApp.dto;
 
+import com.unibuc.EmployeeManagementApp.model.Employee;
+import com.unibuc.EmployeeManagementApp.model.Leave;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
-//Create Leave model in the database
+// Leave POJO
 @Data   //Implements @Getter, @Setter and @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity //Define the class as entity
 @Builder
-@Table(name = "leaves")
-public class Leave {
+public class LeaveDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @Column(nullable = false)
     private String reason;
 
-    //Many Leave records can be assigned to an Employee
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    private EmployeeDto employee;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private LeaveStatus status;
+    private Leave.LeaveStatus status;
 
     public enum LeaveStatus {
         PENDING,    // The leave request is awaiting approval
         APPROVED,   // The leave request has been approved
         REJECTED    // The leave request has been rejected
     }
+
 }

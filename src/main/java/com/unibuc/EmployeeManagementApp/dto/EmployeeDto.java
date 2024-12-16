@@ -30,16 +30,13 @@ public class EmployeeDto {
 
     private SalaryDto salary;
 
-    //Change to DTO
-    private List<Attendance> attendances;
+    private List<AttendanceDto> attendances;
 
-    //Change to DTO
-    private List<Leave> leaves;
+    private List<LeaveDto> leaves;
 
     //Change to DTO
     private List<Performance> performances;
 
-    //Change to DTO
-    private User user;
+    private UserDto user;
 
 }

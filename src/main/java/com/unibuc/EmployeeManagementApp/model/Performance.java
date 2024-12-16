@@ -31,6 +31,6 @@ public class Performance {
 
     //Many Performance records can be assigned to an Employee
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 }
