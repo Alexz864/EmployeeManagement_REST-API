@@ -6,24 +6,26 @@ import com.unibuc.EmployeeManagementApp.model.Role;
 import com.unibuc.EmployeeManagementApp.service.RoleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/roles")   //Roles endpoint
 public class RoleController {
 
     private final RoleService roleService;
 
     private final Mapper<Role, RoleDto> roleMapper;
 
-    //Inject RoleService & RoleMapper to constructor
+    //Inject RoleService & RoleMapper Beans to constructor
     public RoleController(RoleService roleService, Mapper<Role, RoleDto> roleMapper) {
         this.roleService = roleService;
         this.roleMapper = roleMapper;
     }
 
-    @PostMapping(path = "/roles")   //Define create Role endpoint
+    @PostMapping    //Create
     public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto roleDto) {
         Role roleEntity =  roleMapper.mapFrom(roleDto);    //Convert Dto object to Entity object
         Role savedRoleEntity = roleService.createRole(roleEntity);  //Create Role Entity object
@@ -34,4 +36,20 @@ public class RoleController {
         );
     }
 
+    @GetMapping     //Read all
+    public List<RoleDto> listRoles() {
+        List<Role> roles = roleService.findAllRoles();
+        return roles.stream()
+                .map(roleMapper::mapTo)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping(path = "{id}")    //Read one
+    public ResponseEntity<RoleDto> getRole(@PathVariable("id") Long id) {   //Reference the id passed in the URL
+        Optional<Role> foundRole = roleService.findOneRole(id);
+        return foundRole.map(role -> {  //If it finds a RoleEntity, convert it to RoleDto
+            RoleDto roleDto = roleMapper.mapTo(role);
+            return new ResponseEntity<>(roleDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }

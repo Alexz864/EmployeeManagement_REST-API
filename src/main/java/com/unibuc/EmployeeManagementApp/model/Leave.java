@@ -1,5 +1,6 @@
 package com.unibuc.EmployeeManagementApp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,7 @@ public class Leave {
     //Many Leave records can be assigned to an Employee
     @ManyToOne
     @JoinColumn(name = "employee_id")
+    @JsonBackReference // Prevents circular reference during serialization
     private Employee employee;
 
     @Column(nullable = false)

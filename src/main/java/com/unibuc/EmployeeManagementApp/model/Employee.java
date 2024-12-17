@@ -1,5 +1,6 @@
 package com.unibuc.EmployeeManagementApp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,21 +43,26 @@ public class Employee {
 
     //One employee has One Salary
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonManagedReference   //Marks the parent side of the relationship
     private Salary salary;
 
     //One employee can have Many Attendance records
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonManagedReference   //Marks the parent side of the relationship
     private List<Attendance> attendances;
 
     //One employee can have Many Leave records
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonManagedReference   //Marks the parent side of the relationship
     private List<Leave> leaves;
 
     //One employee can have Many Performance records
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonManagedReference   //Marks the parent side of the relationship
     private List<Performance> performances;
 
     //One Employee can be linked to a User
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonManagedReference   //Marks the parent side of the relationship
     private User user;
 }

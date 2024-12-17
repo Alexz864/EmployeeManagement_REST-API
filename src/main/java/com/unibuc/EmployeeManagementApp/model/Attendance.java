@@ -1,5 +1,6 @@
 package com.unibuc.EmployeeManagementApp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,7 @@ public class Attendance {
     //Many Attendances can be assigned to One Employee
     @ManyToOne
     @JoinColumn(name = "employee_id")
+    @JsonBackReference // Prevents circular reference during serialization
     private Employee employee;
 
     @Column(nullable = false)

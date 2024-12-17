@@ -13,10 +13,27 @@ public class TestDataUtil {
     private TestDataUtil() {
     }
 
+    public static Role createTestRoleEntityA() {
+        return Role.builder()
+                .roleName("Admin")
+                .build();
+    }
+
     public static RoleDto createTestRoleDtoA() {
         return RoleDto.builder()
                 .id(1L)
                 .roleName("Admin")
+                .build();
+    }
+
+    public static Employee createTestEmployeeEntityA(Role role) {
+        return Employee.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email("john2doe@gmail.com")
+                .designation("Web Developer")
+                .department("IT")
+                .role(role)
                 .build();
     }
 

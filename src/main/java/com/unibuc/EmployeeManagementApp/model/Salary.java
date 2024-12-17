@@ -1,5 +1,6 @@
 package com.unibuc.EmployeeManagementApp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,5 +31,6 @@ public class Salary {
     //One Salary is assigned to One Employee
     @OneToOne
     @JoinColumn(name = "employee_id")
+    @JsonBackReference // Prevents circular reference during serialization
     private Employee employee;
 }

@@ -3,6 +3,7 @@ package com.unibuc.EmployeeManagementApp.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unibuc.EmployeeManagementApp.dto.RoleDto;
 import com.unibuc.EmployeeManagementApp.model.Role;
+import com.unibuc.EmployeeManagementApp.service.RoleService;
 import com.unibuc.EmployeeManagementApp.utils.TestDataUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,13 +23,16 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc
 public class RoleControllerIntegrationTest {
 
+    private final RoleService roleService;
+
     private final MockMvc mockMvc;
 
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public RoleControllerIntegrationTest(MockMvc mockMvc) {
+    public RoleControllerIntegrationTest(MockMvc mockMvc, RoleService roleService) {
         this.mockMvc = mockMvc;
+        this.roleService = roleService;
         this.objectMapper = new ObjectMapper();
     }
 
@@ -61,6 +65,33 @@ public class RoleControllerIntegrationTest {
                 MockMvcResultMatchers.jsonPath("$.id").isNumber()
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.roleName").value(testRoleDtoA.getRoleName())
+        );
+    }
+
+    @Test
+    public void testThatListRolesReturnsHttp200() throws Exception {
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/roles")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public void testThatListRolesReturnsListOfRoles() throws Exception {
+
+        Role testRoleA = TestDataUtil.createTestRoleEntityA();
+        roleService.createRole(testRoleA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/roles")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].roleName").value("Admin")
         );
     }
 
