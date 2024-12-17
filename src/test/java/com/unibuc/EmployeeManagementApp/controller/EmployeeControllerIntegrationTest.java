@@ -130,8 +130,6 @@ public class EmployeeControllerIntegrationTest {
 
     @Test
     public void testThatGetEmployeeReturnsHttp404WhenNoEmployeeExists() throws Exception{
-        Employee testEmployeeEntityA = TestDataUtil.createTestEmployeeEntityA(null);
-        employeeService.createEmployee(testEmployeeEntityA);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/employees/0")
