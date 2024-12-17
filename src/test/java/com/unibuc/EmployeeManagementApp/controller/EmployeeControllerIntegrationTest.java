@@ -36,6 +36,7 @@ public class EmployeeControllerIntegrationTest {
         this.objectMapper = new ObjectMapper();
     }
 
+    //Create
     @Test
     public void testThatCreateEmployeeReturnsHttpStatus201Created() throws Exception {
 
@@ -77,6 +78,7 @@ public class EmployeeControllerIntegrationTest {
         );
     }
 
+    //Read all
     @Test
     public void testThatListEmployeesReturnsHttpStatus200() throws Exception {
 
@@ -109,6 +111,57 @@ public class EmployeeControllerIntegrationTest {
                 MockMvcResultMatchers.jsonPath("$[0].department").value("IT")
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].designation").value("Web Developer")
+        );
+    }
+
+    //Read one
+    @Test
+    public void testThatGetEmployeeReturnsHttp200WhenEmployeeExist() throws  Exception{
+        Employee testEmployeeEntityA = TestDataUtil.createTestEmployeeEntityA(null);
+        employeeService.createEmployee(testEmployeeEntityA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/employees/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public void testThatGetEmployeeReturnsHttp404WhenNoEmployeeExists() throws Exception{
+        Employee testEmployeeEntityA = TestDataUtil.createTestEmployeeEntityA(null);
+        employeeService.createEmployee(testEmployeeEntityA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/employees/0")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+    }
+
+    @Test
+    public void testThatGetEmployeeReturnsEmployeeWhenEmployeeExists() throws Exception {
+
+        Employee testEmployeeEntityA = TestDataUtil.createTestEmployeeEntityA(null);
+        employeeService.createEmployee(testEmployeeEntityA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/employees/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id").value(1)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.firstName").value("John")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.lastName").value("Doe")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.email").value("john2doe@gmail.com")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.department").value("IT")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.designation").value("Web Developer")
         );
     }
 
