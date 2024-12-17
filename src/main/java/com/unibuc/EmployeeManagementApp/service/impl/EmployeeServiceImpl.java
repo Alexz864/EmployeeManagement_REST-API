@@ -6,6 +6,7 @@ import com.unibuc.EmployeeManagementApp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,5 +30,10 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .findAll()
                 .stream()
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Employee> findOneEmployee(Long id) {
+        return employeeRepository.findById(id);
     }
 }

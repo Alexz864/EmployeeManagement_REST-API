@@ -1,5 +1,6 @@
 package com.unibuc.EmployeeManagementApp.dto;
 
+import com.unibuc.EmployeeManagementApp.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -36,6 +36,7 @@ public class RoleControllerIntegrationTest {
         this.objectMapper = new ObjectMapper();
     }
 
+    //Create
     @Test
     public void testThatCreateRoleSuccessfullyReturnsHttp201Created() throws Exception {
         RoleDto testRoleDtoA = TestDataUtil.createTestRoleDtoA();
@@ -68,6 +69,7 @@ public class RoleControllerIntegrationTest {
         );
     }
 
+    //Read all
     @Test
     public void testThatListRolesReturnsHttp200() throws Exception {
 
@@ -92,6 +94,48 @@ public class RoleControllerIntegrationTest {
                 MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].roleName").value("Admin")
+        );
+    }
+
+    //Read one
+    @Test
+    public void testThatGetRoleReturnsHttp200WhenRoleExists() throws Exception {
+
+        Role testRoleA = TestDataUtil.createTestRoleEntityA();
+        roleService.createRole(testRoleA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/roles/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public void testThatGetRoleReturnsHttp404WhenNoRoleExists() throws Exception {
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/roles/0")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+    }
+
+    @Test
+    public void testThatGetRoleReturnsRoleWhenRoleExists() throws Exception {
+
+        Role testRoleA = TestDataUtil.createTestRoleEntityA();
+        roleService.createRole(testRoleA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/roles/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id").value(1)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.roleName").value("Admin")
         );
     }
 
