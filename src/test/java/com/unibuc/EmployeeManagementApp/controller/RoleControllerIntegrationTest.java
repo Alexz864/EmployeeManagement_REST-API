@@ -85,7 +85,7 @@ public class RoleControllerIntegrationTest {
     public void testThatListRolesReturnsListOfRoles() throws Exception {
 
         Role testRoleA = TestDataUtil.createTestRoleEntityA();
-        roleService.createRole(testRoleA);
+        roleService.saveRole(testRoleA);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/roles")
@@ -102,7 +102,7 @@ public class RoleControllerIntegrationTest {
     public void testThatGetRoleReturnsHttp200WhenRoleExists() throws Exception {
 
         Role testRoleA = TestDataUtil.createTestRoleEntityA();
-        roleService.createRole(testRoleA);
+        roleService.saveRole(testRoleA);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/roles/1")
@@ -127,7 +127,7 @@ public class RoleControllerIntegrationTest {
     public void testThatGetRoleReturnsRoleWhenRoleExists() throws Exception {
 
         Role testRoleA = TestDataUtil.createTestRoleEntityA();
-        roleService.createRole(testRoleA);
+        roleService.saveRole(testRoleA);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/roles/1")

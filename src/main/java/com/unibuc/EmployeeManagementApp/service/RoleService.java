@@ -7,11 +7,13 @@ import java.util.Optional;
 
 public interface RoleService {
 
-    Role createRole(Role roleEntity);
+    Role saveRole(Role roleEntity);
 
     List<Role> findAllRoles();
 
     Optional<Role> findOneRole(Long id);
+
+    boolean isExists(Long id);
 //
 //    Role getRoleByRoleName(String roleName);
 //

@@ -20,7 +20,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override   //Create Role
-    public Role createRole(Role roleEntity) {
+    public Role saveRole(Role roleEntity) {
         return roleRepository.save(roleEntity);
     }
 
@@ -35,5 +35,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Optional<Role> findOneRole(Long id) {
         return roleRepository.findById(id);
+    }
+
+    @Override
+    public boolean isExists(Long id) {
+        return roleRepository.existsById(id);
     }
 }
