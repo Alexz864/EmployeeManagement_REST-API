@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data   //Implements @Getter, @Setter and @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity //Define the class as entity
+@Entity //Define the class as an entity
 @Builder
 @Table(name = "users")
 public class User {

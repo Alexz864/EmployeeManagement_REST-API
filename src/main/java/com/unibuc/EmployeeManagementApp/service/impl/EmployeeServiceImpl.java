@@ -14,17 +14,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    @Autowired  //Inject EmployeeRepository
+    //Inject EmployeeRepository Bean in constructor
+    @Autowired
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 
-    @Override   //Create Employee
+    //Create Employee
+    @Override
     public Employee createEmployee(Employee employeeEntity) {
         return employeeRepository.save(employeeEntity);
     }
 
-    @Override   //Find all Employees
+    //Read all Employees
+    @Override
     public List<Employee> findAllEmployees() {
         return employeeRepository
                 .findAll()
@@ -32,6 +35,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toList());
     }
 
+    //Read one Employee
     @Override
     public Optional<Employee> findOneEmployee(Long id) {
         return employeeRepository.findById(id);

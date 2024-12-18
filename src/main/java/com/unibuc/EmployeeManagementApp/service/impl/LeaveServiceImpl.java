@@ -11,12 +11,14 @@ public class LeaveServiceImpl implements LeaveService {
 
     private final LeaveRepository leaveRepository;
 
-    @Autowired  //Inject LeaveRepository
+    //Inject LeaveRepository Bean in constructor
+    @Autowired
     public LeaveServiceImpl(LeaveRepository leaveRepository) {
         this.leaveRepository = leaveRepository;
     }
 
-    @Override   //Create Leave
+    //Create Leave
+    @Override
     public Leave createLeave(Leave leaveEntity) {
         return leaveRepository.save(leaveEntity);
     }

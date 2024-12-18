@@ -11,12 +11,14 @@ public class SalaryServiceImpl implements SalaryService {
 
     private final SalaryRepository salaryRepository;
 
-    @Autowired  //Inject SalaryRepository
+    //Inject SalaryRepository Bean in constructor
+    @Autowired
     public SalaryServiceImpl(SalaryRepository salaryRepository) {
         this.salaryRepository = salaryRepository;
     }
 
-    @Override   //Create Salary
+    //Create Salary
+    @Override
     public Salary createSalary(Salary salaryEntity) {
         return salaryRepository.save(salaryEntity);
     }

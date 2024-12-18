@@ -11,45 +11,55 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+//Employees endpoint
 @RestController
-@RequestMapping(path = "employees")     //Employees endpoint
+@RequestMapping(path = "/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
 
     private final Mapper<Employee, EmployeeDto> employeeMapper;
 
-    //Inject EmployeeService & EmployeeMapper Beans to constructor
-    public EmployeeController( EmployeeService employeeService,Mapper<Employee, EmployeeDto> employeeMapper) {
+    //Inject EmployeeService & EmployeeMapper Beans in constructor
+    public EmployeeController(
+            EmployeeService employeeService,
+            Mapper<Employee, EmployeeDto> employeeMapper
+    ) {
         this.employeeMapper = employeeMapper;
         this.employeeService = employeeService;
     }
 
-    @PostMapping    //Create
+    //Create Employee
+    @PostMapping
     public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto) {
-        Employee employeeEntity = employeeMapper.mapFrom(employeeDto);  //Convert Dto object to Entity object
-        System.out.println(employeeEntity);
-        Employee savedEmployeeEntity = employeeService.createEmployee(employeeEntity);  //Create Employee Entity object
-        EmployeeDto savedEmployeeDto = employeeMapper.mapTo(savedEmployeeEntity);   //Convert Entity object to Dto object
+        Employee employeeEntity = employeeMapper.mapFrom(employeeDto);  //Convert Dto to Entity
+        Employee savedEmployeeEntity = employeeService.createEmployee(employeeEntity);  //Create Employee Entity
+        EmployeeDto savedEmployeeDto = employeeMapper.mapTo(savedEmployeeEntity);   //Convert Entity to Dto
+
         return new ResponseEntity<>(
                 savedEmployeeDto,
                 HttpStatus.CREATED
         );
     }
 
-    @GetMapping     //Read all
+    //Read all Employees
+    @GetMapping
     public List<EmployeeDto> listEmployees() {
         List<Employee> employees = employeeService.findAllEmployees();
+        
         return employees.stream()
                 .map(employeeMapper::mapTo)
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(path = "{id}")  //Read one
+    //Read one Employee
+    @GetMapping(path = "{id}")
     public ResponseEntity<EmployeeDto> getEmployee(@PathVariable("id") Long id) {   //Reference the id passed in the URL
         Optional<Employee> foundEmployee = employeeService.findOneEmployee(id);
+
+        //If it finds a EmployeeEntity, convert it to Dto
         return foundEmployee.map(employee -> {
-            EmployeeDto employeeDto = employeeMapper.mapTo(employee);   //Convert to Dto
+            EmployeeDto employeeDto = employeeMapper.mapTo(employee);
             return new ResponseEntity<>(employeeDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

@@ -14,16 +14,19 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
 
-    @Autowired  //Inject RoleRepository
+    //Inject RoleRepository Bean in constructor
+    @Autowired
     public RoleServiceImpl(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 
-    @Override   //Create Role
+    //Create Role
+    @Override
     public Role saveRole(Role roleEntity) {
         return roleRepository.save(roleEntity);
     }
 
+    //Read all Roles
     @Override
     public List<Role> findAllRoles() {
         return roleRepository
@@ -32,13 +35,15 @@ public class RoleServiceImpl implements RoleService {
                 .collect(Collectors.toList());
     }
 
+    //Read one Role
     @Override
     public Optional<Role> findOneRole(Long id) {
         return roleRepository.findById(id);
     }
 
+    //Check if Role exists
     @Override
-    public boolean isExists(Long id) {
+    public boolean roleExists(Long id) {
         return roleRepository.existsById(id);
     }
 }

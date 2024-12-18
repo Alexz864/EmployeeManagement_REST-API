@@ -8,26 +8,37 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//Attendances endpoint
 @RestController
+@RequestMapping(path = "/attendances")
 public class AttendanceController {
 
     private final AttendanceService attendanceService;
 
     private final Mapper<Attendance, AttendanceDto> attendanceMapper;
 
-    //Inject AttendanceService and AttendanceMapper in constructor
-    public AttendanceController(AttendanceService attendanceService, Mapper<Attendance, AttendanceDto> attendanceMapper) {
+    //Inject AttendanceService & AttendanceMapper Beans in constructor
+    public AttendanceController(
+            AttendanceService attendanceService,
+            Mapper<Attendance, AttendanceDto> attendanceMapper
+    ) {
         this.attendanceService = attendanceService;
         this.attendanceMapper = attendanceMapper;
     }
 
-    @PostMapping(path = "/attendances") //Define create Attendance endpoint
+    //Create Attendance
+    @PostMapping
     public ResponseEntity<AttendanceDto> createAttendance(@RequestBody AttendanceDto attendanceDto) {
-        Attendance attendanceEntity = attendanceMapper.mapFrom(attendanceDto);  //Convert Dto object to Entity object
-        Attendance savedAttendanceEntity = attendanceService.createAttendance(attendanceEntity);    //Create Attendance Entity object
-        AttendanceDto savedAttendanceDto = attendanceMapper.mapTo(savedAttendanceEntity);   //Covert Entity object to Dto object
+        Attendance attendanceEntity =
+                attendanceMapper.mapFrom(attendanceDto);  //Convert Dto to Entity
+        Attendance savedAttendanceEntity =
+                attendanceService.createAttendance(attendanceEntity);    //Create Attendance Entity
+        AttendanceDto savedAttendanceDto =
+                attendanceMapper.mapTo(savedAttendanceEntity);   //Covert Entity to Dto
+        
         return new ResponseEntity<>(
                 savedAttendanceDto,
                 HttpStatus.CREATED

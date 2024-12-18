@@ -29,6 +29,7 @@ public class RoleControllerIntegrationTest {
 
     private final ObjectMapper objectMapper;
 
+    //Inject MockMvc Bean in constructor
     @Autowired
     public RoleControllerIntegrationTest(MockMvc mockMvc, RoleService roleService) {
         this.mockMvc = mockMvc;
@@ -36,7 +37,7 @@ public class RoleControllerIntegrationTest {
         this.objectMapper = new ObjectMapper();
     }
 
-    //Create
+    //Create Tests
     @Test
     public void testThatCreateRoleSuccessfullyReturnsHttp201Created() throws Exception {
         RoleDto testRoleDtoA = TestDataUtil.createTestRoleDtoA();
@@ -69,7 +70,7 @@ public class RoleControllerIntegrationTest {
         );
     }
 
-    //Read all
+    //Read all Tests
     @Test
     public void testThatListRolesReturnsHttp200() throws Exception {
 
@@ -97,7 +98,7 @@ public class RoleControllerIntegrationTest {
         );
     }
 
-    //Read one
+    //Read one Tests
     @Test
     public void testThatGetRoleReturnsHttp200WhenRoleExists() throws Exception {
 

@@ -29,14 +29,15 @@ public class EmployeeControllerIntegrationTest {
 
     private final ObjectMapper objectMapper;
 
-    @Autowired  //Inject Beans in constructor
+    //Inject MockMvc Bean in constructor
+    @Autowired
     public EmployeeControllerIntegrationTest(MockMvc mockMvc, EmployeeService employeeService) {
         this.mockMvc = mockMvc;
         this.employeeService = employeeService;
         this.objectMapper = new ObjectMapper();
     }
 
-    //Create
+    //Create Tests
     @Test
     public void testThatCreateEmployeeReturnsHttpStatus201Created() throws Exception {
 
@@ -78,7 +79,7 @@ public class EmployeeControllerIntegrationTest {
         );
     }
 
-    //Read all
+    //Read all Tests
     @Test
     public void testThatListEmployeesReturnsHttpStatus200() throws Exception {
 
@@ -114,7 +115,7 @@ public class EmployeeControllerIntegrationTest {
         );
     }
 
-    //Read one
+    //Read one Tests
     @Test
     public void testThatGetEmployeeReturnsHttp200WhenEmployeeExist() throws  Exception{
         Employee testEmployeeEntityA = TestDataUtil.createTestEmployeeEntityA(null);

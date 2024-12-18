@@ -27,13 +27,15 @@ public class SalaryControllerIntegrationTest {
 
     private final ObjectMapper objectMapper;
 
-    @Autowired  //Inject MockMvc in constructor
+    //Inject MockMvc Bean in constructor
+    @Autowired
     public SalaryControllerIntegrationTest(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
         this.objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
     }
 
+    //Create Tests
     @Test
     public void testThatCreateSalaryReturnsHttpStatus201Created() throws Exception {
 

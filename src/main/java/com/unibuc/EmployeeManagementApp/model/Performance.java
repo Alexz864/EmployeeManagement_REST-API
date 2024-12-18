@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Data   //Implements @Getter, @Setter and @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity //Define the class as entity
+@Entity //Define the class as an entity
 @Builder
 @Table(name = "performances")
 public class Performance {

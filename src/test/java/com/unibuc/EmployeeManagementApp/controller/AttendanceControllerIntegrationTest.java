@@ -27,13 +27,15 @@ public class AttendanceControllerIntegrationTest {
 
     private final ObjectMapper objectMapper;
 
-    @Autowired  //Inject MockMvc in constructor
+    //Inject MockMvc Bean in constructor
+    @Autowired
     public AttendanceControllerIntegrationTest(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
         this.objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
     }
 
+    //Create Tests
     @Test
     public void testThatCreateAttendanceReturnsHttpStatus201Created() throws Exception {
 

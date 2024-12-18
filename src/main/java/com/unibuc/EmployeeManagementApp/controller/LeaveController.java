@@ -8,26 +8,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//Leaves endpoint
 @RestController
+@RequestMapping(path = "/leaves")
 public class LeaveController {
 
     private final LeaveService leaveService;
 
     private final Mapper<Leave, LeaveDto> leaveMapper;
 
-    //Inject LeaveService & LeaveMapper to constructor
+    //Inject LeaveService & LeaveMapper Beans in constructor
     public LeaveController(LeaveService leaveService, Mapper<Leave, LeaveDto> leaveMapper) {
         this.leaveService = leaveService;
         this.leaveMapper = leaveMapper;
     }
 
-    @PostMapping(path = "/leaves")  //Define create Leave endpoint
+    //Create Leave
+    @PostMapping
     public ResponseEntity<LeaveDto> createLeave(@RequestBody LeaveDto leaveDto) {
-        Leave leaveEntity = leaveMapper.mapFrom(leaveDto);  //Convert Dto object to Entity object
-        Leave savedLeaveEntity = leaveService.createLeave(leaveEntity); //Create Leave Entity object
-        LeaveDto savedLeaveDto = leaveMapper.mapTo(savedLeaveEntity);   //Convert Entity object to Dto object;
+        Leave leaveEntity = leaveMapper.mapFrom(leaveDto);  //Convert Dto to Entity
+        Leave savedLeaveEntity = leaveService.createLeave(leaveEntity); //Create Leave Entity
+        LeaveDto savedLeaveDto = leaveMapper.mapTo(savedLeaveEntity);   //Convert Entity to Dto
+        
         return new ResponseEntity<>(
                 savedLeaveDto,
                 HttpStatus.CREATED

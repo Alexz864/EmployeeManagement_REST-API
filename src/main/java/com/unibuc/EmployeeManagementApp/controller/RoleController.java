@@ -11,32 +11,35 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+//Roles endpoint
 @RestController
-@RequestMapping("/roles")   //Roles endpoint
+@RequestMapping("/roles")
 public class RoleController {
 
     private final RoleService roleService;
 
     private final Mapper<Role, RoleDto> roleMapper;
 
-    //Inject RoleService & RoleMapper Beans to constructor
+    //Inject RoleService & RoleMapper Beans in constructor
     public RoleController(RoleService roleService, Mapper<Role, RoleDto> roleMapper) {
         this.roleService = roleService;
         this.roleMapper = roleMapper;
     }
 
-    @PostMapping    //Create
+    //Create Role
+    @PostMapping
     public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto roleDto) {
-        Role roleEntity =  roleMapper.mapFrom(roleDto);    //Convert Dto object to Entity object
-        Role savedRoleEntity = roleService.saveRole(roleEntity);  //Create Role Entity object
-        RoleDto savedRoleDto = roleMapper.mapTo(savedRoleEntity);   //Convert Entity object to Dto object
+        Role roleEntity =  roleMapper.mapFrom(roleDto);    //Convert Dto to Entity
+        Role savedRoleEntity = roleService.saveRole(roleEntity);  //Create Role Entity
+        RoleDto savedRoleDto = roleMapper.mapTo(savedRoleEntity);   //Convert Entity to Dto
         return new ResponseEntity<>(
                 savedRoleDto,
                 HttpStatus.CREATED
         );
     }
 
-    @GetMapping     //Read all
+    //Read all Roles
+    @GetMapping
     public List<RoleDto> listRoles() {
         List<Role> roles = roleService.findAllRoles();
         return roles.stream()
@@ -44,27 +47,33 @@ public class RoleController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(path = "{id}")    //Read one
+    //Read one Role
+    @GetMapping(path = "{id}")
     public ResponseEntity<RoleDto> getRole(@PathVariable("id") Long id) {   //Reference the id passed in the URL
         Optional<Role> foundRole = roleService.findOneRole(id);
-        return foundRole.map(role -> {  //If it finds a RoleEntity, convert it to RoleDto
+
+        //If it finds a RoleEntity, convert it to Dto
+        return foundRole.map(role -> {
             RoleDto roleDto = roleMapper.mapTo(role);
             return new ResponseEntity<>(roleDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping(path = "{id}")      //Full update
+    //Full update Role
+    @PutMapping(path = "{id}")
     public ResponseEntity<RoleDto> fullUpdateRole(
             @PathVariable("id") Long id,
             @RequestBody RoleDto roleDto) {
-         if(!roleService.isExists(id)) {
+         //Check if the Role exists
+         if(!roleService.roleExists(id)) {
              return new ResponseEntity<>(HttpStatus.NOT_FOUND);
          }
 
          roleDto.setId(id);
-         Role roleEntity = roleMapper.mapFrom(roleDto);
-         Role savedRoleEntity = roleService.saveRole(roleEntity);
-         RoleDto savedRoleDto = roleMapper.mapTo(savedRoleEntity);
+         Role roleEntity = roleMapper.mapFrom(roleDto); //Convert Dto to Entity
+         Role savedRoleEntity = roleService.saveRole(roleEntity);   //Update Role Entity
+         RoleDto savedRoleDto = roleMapper.mapTo(savedRoleEntity);  //Convert Entity to Dto
+        
          return new ResponseEntity<>(
                  savedRoleDto,
                  HttpStatus.OK

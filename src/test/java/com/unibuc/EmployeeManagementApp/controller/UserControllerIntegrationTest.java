@@ -25,12 +25,14 @@ public class UserControllerIntegrationTest {
 
     private final ObjectMapper objectMapper;
 
-    @Autowired  //Inject MockMvc in constructor
+    //Inject MockMvc Bean in constructor
+    @Autowired
     public UserControllerIntegrationTest(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
         this.objectMapper = new ObjectMapper();
     }
 
+    //Create Tests
     @Test
     public void testThatCreateUserReturnsHttpStatus201Created() throws Exception {
 

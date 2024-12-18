@@ -11,11 +11,13 @@ public class PerformanceServiceImpl implements PerformanceService {
 
     private final PerformanceRepository performanceRepository;
 
-    @Autowired  //Inject PerformanceRepository
+    //Inject PerformanceRepository Bean in constructor
+    @Autowired
     public PerformanceServiceImpl(PerformanceRepository performanceRepository) {
         this.performanceRepository = performanceRepository;
     }
 
+    //Create Performance
     @Override
     public Performance createPerformance(Performance performanceEntity) {
         return performanceRepository.save(performanceEntity);

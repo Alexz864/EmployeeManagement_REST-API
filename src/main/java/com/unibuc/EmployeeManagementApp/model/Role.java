@@ -1,6 +1,5 @@
 package com.unibuc.EmployeeManagementApp.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +11,7 @@ import java.util.List;
 @Data   //Implements @Getter, @Setter and @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity //Define the class as entity
+@Entity //Define the class as an entity
 @Builder
 @Table(name = "roles")
 public class Role {

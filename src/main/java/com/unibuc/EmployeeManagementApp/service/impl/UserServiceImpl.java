@@ -11,12 +11,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired  //Inject UserRepository
+    //Inject UserRepository Bean in constructor
+    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    @Override   //Create User
+    //Create User
+    @Override
     public User createUser(User userEntity) {
         return userRepository.save(userEntity);
     }
