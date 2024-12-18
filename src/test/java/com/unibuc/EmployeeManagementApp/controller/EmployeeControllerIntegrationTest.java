@@ -1,5 +1,6 @@
 package com.unibuc.EmployeeManagementApp.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unibuc.EmployeeManagementApp.dto.EmployeeDto;
 import com.unibuc.EmployeeManagementApp.model.Employee;
@@ -159,6 +160,53 @@ public class EmployeeControllerIntegrationTest {
                 MockMvcResultMatchers.jsonPath("$.email").value("john2doe@gmail.com")
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.department").value("IT")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.designation").value("Web Developer")
+        );
+    }
+
+    //Partial update Tests
+    @Test
+    public void testThatPartialUpdateExistingEmployeeReturnsHttpStatus200() throws Exception {
+        Employee testEmployeeEntityA = TestDataUtil.createTestEmployeeEntityA(null);
+        Employee savedEmployee = employeeService.createEmployee(testEmployeeEntityA);
+
+        EmployeeDto testEmployeeDtoA = TestDataUtil.createTestEmployeeDtoA(null);
+        testEmployeeDtoA.setFirstName("UPDATED");
+        String employeeDtoJson = objectMapper.writeValueAsString(testEmployeeDtoA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/employees/" + savedEmployee.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(employeeDtoJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public void testThatPartialUpdateExistingEmployeeReturnsRequestedUpdatedEmployee() throws Exception {
+        Employee testEmployeeEntityA = TestDataUtil.createTestEmployeeEntityA(null);
+        Employee savedEmployee = employeeService.createEmployee(testEmployeeEntityA);
+
+        EmployeeDto testEmployeeDtoA = TestDataUtil.createTestEmployeeDtoA(null);
+        testEmployeeDtoA.setFirstName("UPDATED");
+        String employeeDtoJson = objectMapper.writeValueAsString(testEmployeeDtoA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/employees/" + savedEmployee.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(employeeDtoJson)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id").value(savedEmployee.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.firstName").value("UPDATED")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.lastName").value(testEmployeeDtoA.getLastName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.email").value("john2doe@gmail.com")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.department").value(testEmployeeDtoA.getDepartment())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.designation").value("Web Developer")
         );

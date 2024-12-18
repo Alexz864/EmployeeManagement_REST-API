@@ -14,4 +14,11 @@ public interface EmployeeService {
 
     //Read one Employee
     Optional<Employee> findOneEmployee(Long id);
+
+    //Check if Employee exists
+    boolean employeeExists(Long id);
+
+    //Employee partial update
+    Employee partialUpdateEmployee(Long id, Employee employeeEntity);
+    
 }

@@ -40,4 +40,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Optional<Employee> findOneEmployee(Long id) {
         return employeeRepository.findById(id);
     }
+
+    //Check if Employee exists
+    @Override
+    public boolean employeeExists(Long id) {
+        return employeeRepository.existsById(id);
+    }
+
+    //Partial update Employee
+    @Override
+    public Employee partialUpdateEmployee(Long id, Employee employeeEntity) {
+        employeeEntity.setId(id);
+
+        //If employeeEntity has a name and is not null, set that on existingEmployee
+        return employeeRepository.findById(id).map(existingEmployee -> {
+            Optional.ofNullable(employeeEntity.getFirstName()).ifPresent(existingEmployee::setFirstName);
+            return employeeRepository.save(existingEmployee);
+        }).orElseThrow(() -> new RuntimeException("Employee does not exist."));
+    }
+
 }

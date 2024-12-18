@@ -66,7 +66,7 @@ public class LeaveControllerIntegrationTest {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.startDate").exists()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.endDate").value("2024-12-20")
+                MockMvcResultMatchers.jsonPath("$.endDate").value("20-12-2024")
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.reason").value("Medical appointment")
         ).andExpect(

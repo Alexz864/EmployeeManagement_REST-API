@@ -63,7 +63,8 @@ public class RoleController {
     @PutMapping(path = "{id}")
     public ResponseEntity<RoleDto> fullUpdateRole(
             @PathVariable("id") Long id,
-            @RequestBody RoleDto roleDto) {
+            @RequestBody RoleDto roleDto
+    ) {
          //Check if the Role exists
          if(!roleService.roleExists(id)) {
              return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -71,11 +72,11 @@ public class RoleController {
 
          roleDto.setId(id);
          Role roleEntity = roleMapper.mapFrom(roleDto); //Convert Dto to Entity
-         Role savedRoleEntity = roleService.saveRole(roleEntity);   //Update Role Entity
-         RoleDto savedRoleDto = roleMapper.mapTo(savedRoleEntity);  //Convert Entity to Dto
-        
+         Role updatedRoleEntity = roleService.saveRole(roleEntity);   //Update Role Entity
+         RoleDto updatedRoleDto = roleMapper.mapTo(updatedRoleEntity);  //Convert Entity to Dto
+
          return new ResponseEntity<>(
-                 savedRoleDto,
+                 updatedRoleDto,
                  HttpStatus.OK
          );
     }

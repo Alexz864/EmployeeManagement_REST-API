@@ -1,5 +1,6 @@
 package com.unibuc.EmployeeManagementApp.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unibuc.EmployeeManagementApp.dto.RoleDto;
 import com.unibuc.EmployeeManagementApp.model.Role;
@@ -114,17 +115,6 @@ public class RoleControllerIntegrationTest {
     }
 
     @Test
-    public void testThatGetRoleReturnsHttp404WhenNoRoleExists() throws Exception {
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.get("/roles/0")
-                        .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(
-                MockMvcResultMatchers.status().isNotFound()
-        );
-    }
-
-    @Test
     public void testThatGetRoleReturnsRoleWhenRoleExists() throws Exception {
 
         Role testRoleA = TestDataUtil.createTestRoleEntityA();
@@ -137,6 +127,73 @@ public class RoleControllerIntegrationTest {
                 MockMvcResultMatchers.jsonPath("$.id").value(1)
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.roleName").value("Admin")
+        );
+    }
+
+    @Test
+    public void testThatGetRoleReturnsHttp404WhenNoRoleExists() throws Exception {
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/roles/0")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+    }
+
+    //Full update Tests
+    @Test
+    public void testThatFullUpdateRoleReturnsHttp404WhenNoRoleExists() throws Exception {
+
+        RoleDto testRoleDtoA = TestDataUtil.createTestRoleDtoA();
+        String roleDtoJson = objectMapper.writeValueAsString(testRoleDtoA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/roles/0")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(roleDtoJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+    }
+
+    @Test
+    public void testThatFullUpdateRoleReturnsHttp200WhenRoleExists() throws Exception {
+
+        Role testRoleEntityA = TestDataUtil.createTestRoleEntityA();
+        Role savedRoleEntityA = roleService.saveRole(testRoleEntityA);
+
+        RoleDto testRoleDtoA = TestDataUtil.createTestRoleDtoA();
+        String roleDtoJson = objectMapper.writeValueAsString(testRoleDtoA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/roles/" + savedRoleEntityA.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(roleDtoJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public void testThatFullUpdateUpdatesExistingRole () throws Exception {
+
+        Role testRoleEntityA = TestDataUtil.createTestRoleEntityA();
+        Role savedRoleEntityA = roleService.saveRole(testRoleEntityA);
+
+        Role roleDto = TestDataUtil.createTestRoleEntityB();
+        roleDto.setId(savedRoleEntityA.getId());
+
+        String roleDtoUpdateJson = objectMapper.writeValueAsString(roleDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/roles/" + savedRoleEntityA.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(roleDtoUpdateJson)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id").value(savedRoleEntityA.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.roleName").value(roleDto.getRoleName())
         );
     }
 

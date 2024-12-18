@@ -1,8 +1,10 @@
 package com.unibuc.EmployeeManagementApp.controller;
 
 import com.unibuc.EmployeeManagementApp.dto.EmployeeDto;
+import com.unibuc.EmployeeManagementApp.dto.RoleDto;
 import com.unibuc.EmployeeManagementApp.mapper.Mapper;
 import com.unibuc.EmployeeManagementApp.model.Employee;
+import com.unibuc.EmployeeManagementApp.model.Role;
 import com.unibuc.EmployeeManagementApp.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,5 +64,26 @@ public class EmployeeController {
             EmployeeDto employeeDto = employeeMapper.mapTo(employee);
             return new ResponseEntity<>(employeeDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    //Partial update Employee
+    @PatchMapping(path = "{id}")
+    public ResponseEntity<EmployeeDto> partialUpdateRole(
+            @PathVariable("id") Long id,
+            @RequestBody EmployeeDto employeeDto
+    ) {
+        //Check if the Employee exists
+        if(!employeeService.employeeExists(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Employee employeeEntity = employeeMapper.mapFrom(employeeDto); //Convert Dto to Entity
+        Employee updatedEmployee = employeeService.partialUpdateEmployee(id, employeeEntity);   //Update Employee Entity
+        EmployeeDto updatedEmployeeDto = employeeMapper.mapTo(updatedEmployee); //Convert Entity to Dto
+
+        return new ResponseEntity<>(
+                updatedEmployeeDto,
+                HttpStatus.OK
+        );
     }
 }

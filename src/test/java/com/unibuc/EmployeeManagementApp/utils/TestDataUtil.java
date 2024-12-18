@@ -92,4 +92,9 @@ public class TestDataUtil {
                 .build();
     }
 
+    public static Role createTestRoleEntityB() {
+        return Role.builder()
+                .roleName("Manager")
+                .build();
+    }
 }
