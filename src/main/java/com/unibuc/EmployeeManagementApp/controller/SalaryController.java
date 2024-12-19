@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/salaries")
+@SuppressWarnings("unused")
 public class SalaryController {
 
     private final SalaryService salaryService;

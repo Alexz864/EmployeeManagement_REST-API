@@ -1,6 +1,5 @@
 package com.unibuc.EmployeeManagementApp.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unibuc.EmployeeManagementApp.dto.EmployeeDto;
 import com.unibuc.EmployeeManagementApp.model.Employee;

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/performances")
+@SuppressWarnings("unused")
 public class PerformanceController {
 
     private final PerformanceService performanceService;

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 //Leaves endpoint
 @RestController
 @RequestMapping(path = "/leaves")
+@SuppressWarnings("unused")
 public class LeaveController {
 
     private final LeaveService leaveService;
