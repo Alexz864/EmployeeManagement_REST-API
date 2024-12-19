@@ -1,7 +1,10 @@
 package com.unibuc.EmployeeManagementApp.service.impl;
 
+import com.unibuc.EmployeeManagementApp.exception.RoleNotFoundException;
 import com.unibuc.EmployeeManagementApp.model.Employee;
+import com.unibuc.EmployeeManagementApp.model.Role;
 import com.unibuc.EmployeeManagementApp.repository.EmployeeRepository;
+import com.unibuc.EmployeeManagementApp.repository.RoleRepository;
 import com.unibuc.EmployeeManagementApp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +18,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    //Inject EmployeeRepository Bean in constructor
+    private final RoleRepository roleRepository;
+
+    //Inject EmployeeRepository & RoleRepository Bean in constructor
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+    public EmployeeServiceImpl(
+            EmployeeRepository employeeRepository,
+            RoleRepository roleRepository
+    ) {
         this.employeeRepository = employeeRepository;
+        this.roleRepository = roleRepository;
     }
 
     //Create Employee
     @Override
     public Employee createEmployee(Employee employeeEntity) {
+        //Ensure Role existence before assigning to the Employee
+        Role role = roleRepository.findByRoleName(employeeEntity.getRole().getRoleName())
+                .orElseThrow(() ->
+                        new RoleNotFoundException(employeeEntity.getRole().getRoleName())
+                );
+
+        //Assign the resolved Role to the Employee
+        employeeEntity.setRole(role);
+
         return employeeRepository.save(employeeEntity);
     }
 
