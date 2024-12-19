@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
+@SuppressWarnings("unused")
 public class LeaveMapper implements Mapper<Leave, LeaveDto> {
 
     private final ModelMapper modelMapper;

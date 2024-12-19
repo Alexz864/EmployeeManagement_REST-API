@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
+@SuppressWarnings("unused")
 public class RoleMapper implements Mapper<Role, RoleDto> {
 
     private final ModelMapper modelMapper;

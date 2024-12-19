@@ -6,6 +6,7 @@ import com.unibuc.EmployeeManagementApp.service.AttendanceService;
 import org.springframework.stereotype.Service;
 
 @Service
+@SuppressWarnings("unused")
 public class AttendanceServiceImpl implements AttendanceService {
 
     private final AttendanceRepository attendanceRepository;

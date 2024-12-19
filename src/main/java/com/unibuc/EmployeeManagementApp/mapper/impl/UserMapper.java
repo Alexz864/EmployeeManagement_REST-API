@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
+@SuppressWarnings("unused")
 public class UserMapper implements Mapper<User, UserDto> {
 
     private final ModelMapper modelMapper;

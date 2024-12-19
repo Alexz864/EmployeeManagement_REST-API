@@ -8,6 +8,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 //Configure Spring Security Bean
 @Configuration
+@SuppressWarnings("unused")
 public class SecurityConfig {
 
     @Bean

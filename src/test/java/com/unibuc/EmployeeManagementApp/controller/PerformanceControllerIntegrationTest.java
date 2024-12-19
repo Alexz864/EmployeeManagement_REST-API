@@ -2,7 +2,6 @@ package com.unibuc.EmployeeManagementApp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.unibuc.EmployeeManagementApp.dto.LeaveDto;
 import com.unibuc.EmployeeManagementApp.dto.PerformanceDto;
 import com.unibuc.EmployeeManagementApp.utils.TestDataUtil;
 import org.junit.jupiter.api.Test;

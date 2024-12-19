@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
+@SuppressWarnings("unused")
 public class AttendanceMapper implements Mapper<Attendance, AttendanceDto> {
 
     private final ModelMapper modelMapper;

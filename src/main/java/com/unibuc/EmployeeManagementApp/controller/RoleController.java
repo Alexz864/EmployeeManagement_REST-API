@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 //Roles endpoint
 @RestController
 @RequestMapping("/roles")
-//@SuppressWarnings("unused")
+@SuppressWarnings("unused")
 public class RoleController {
 
     private final RoleService roleService;

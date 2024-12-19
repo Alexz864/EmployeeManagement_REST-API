@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Entity //Define the class as an entity
 @Builder
 @Table(name = "leaves")
+@SuppressWarnings("unused")
 public class Leave {
 
     @Id

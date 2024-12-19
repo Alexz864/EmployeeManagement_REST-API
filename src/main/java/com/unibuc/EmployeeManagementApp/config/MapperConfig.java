@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 //Configure the ModelMapper Bean
 @Configuration
+@SuppressWarnings("unused")
 public class MapperConfig {
 
     @Bean

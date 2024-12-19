@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@SuppressWarnings("unused")
 public class LeaveDto {
 
     private Long id;

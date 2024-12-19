@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
+@SuppressWarnings("unused")
 public class SalaryMapper implements Mapper<Salary, SalaryDto> {
 
     private final ModelMapper modelMapper;
