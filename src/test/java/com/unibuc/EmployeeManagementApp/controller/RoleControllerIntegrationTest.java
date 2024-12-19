@@ -1,6 +1,5 @@
 package com.unibuc.EmployeeManagementApp.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unibuc.EmployeeManagementApp.dto.RoleDto;
 import com.unibuc.EmployeeManagementApp.model.Role;
@@ -194,6 +193,30 @@ public class RoleControllerIntegrationTest {
                 MockMvcResultMatchers.jsonPath("$.id").value(savedRoleEntityA.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.roleName").value(roleDto.getRoleName())
+        );
+    }
+
+    @Test
+    public void testThatDeleteRoleReturnsHttp204ForNonExistingRole() throws  Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/roles/0")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNoContent()
+        );
+    }
+
+    @Test
+    public void testThatDeleteRoleReturnsHttp204ForExistingRole() throws  Exception {
+
+        Role testRoleEntityA = TestDataUtil.createTestRoleEntityA();
+        Role savedRoleEntityA = roleService.saveRole(testRoleEntityA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/roles/" + savedRoleEntityA.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNoContent()
         );
     }
 

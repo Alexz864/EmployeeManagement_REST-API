@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 //Roles endpoint
 @RestController
 @RequestMapping("/roles")
+//@SuppressWarnings("unused")
 public class RoleController {
 
     private final RoleService roleService;
@@ -48,7 +49,7 @@ public class RoleController {
     }
 
     //Read one Role
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<RoleDto> getRole(@PathVariable("id") Long id) {   //Reference the id passed in the URL
         Optional<Role> foundRole = roleService.findOneRole(id);
 
@@ -60,7 +61,7 @@ public class RoleController {
     }
 
     //Full update Role
-    @PutMapping(path = "{id}")
+    @PutMapping(path = "/{id}")
     public ResponseEntity<RoleDto> fullUpdateRole(
             @PathVariable("id") Long id,
             @RequestBody RoleDto roleDto
@@ -79,5 +80,12 @@ public class RoleController {
                  updatedRoleDto,
                  HttpStatus.OK
          );
+    }
+
+    //Delete Role
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> deleteRole(@PathVariable("id") Long id) {
+        roleService.deleteRole(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

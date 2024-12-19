@@ -17,5 +17,7 @@ public interface RoleService {
 
     //Check if Role exists
     boolean roleExists(Long id);
-    
+
+    //Delete Role
+    void deleteRole(Long id);
 }
