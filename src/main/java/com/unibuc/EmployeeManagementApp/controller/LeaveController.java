@@ -39,4 +39,14 @@ public class LeaveController {
                 HttpStatus.CREATED
         );
     }
+
+    //Read all Leaves
+
+    //Read one Leave
+
+    //Partial update Leaves
+
+    //Full update Leaves
+
+    //Delete Leaves
 }

@@ -6,10 +6,11 @@ import com.unibuc.EmployeeManagementApp.model.Attendance;
 import com.unibuc.EmployeeManagementApp.service.AttendanceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 //Attendances endpoint
 @RestController
@@ -45,4 +46,50 @@ public class AttendanceController {
                 HttpStatus.CREATED
         );
     }
+
+    //Read all Attendances
+    @GetMapping
+    public List<AttendanceDto> listAttendances() {
+        List<Attendance> attendances = attendanceService.findAllAttendances();
+
+        return attendances.stream()
+                .map(attendanceMapper::mapTo)
+                .collect(Collectors.toList());
+    }
+
+    //Read one Attendance
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<AttendanceDto> getAttendance(@PathVariable("id") Long id) {   //Reference the id passed in the URL
+        Optional<Attendance> foundAttendance = attendanceService.findOneAttendance(id);
+
+        //If it finds an AttendanceEntity, convert it to Dto
+        return foundAttendance.map(attendance -> {
+            AttendanceDto attendanceDto = attendanceMapper.mapTo(attendance);
+            return new ResponseEntity<>(attendanceDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    //Full update Attendance
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<AttendanceDto> fullUpdateAttendance(
+            @PathVariable("id") Long id,
+            @RequestBody AttendanceDto attendanceDto
+    ) {
+        //Check if the Attendance exists
+        if(!attendanceService.attendanceExists(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        attendanceDto.setId(id);
+
+        Attendance attendanceEntity = attendanceMapper.mapFrom(attendanceDto); //Convert Dto to Entity
+        Attendance updatedAttendanceEntity = attendanceService.createAttendance(attendanceEntity);   //Update Employee Entity
+        AttendanceDto updatedAttendanceDto = attendanceMapper.mapTo(updatedAttendanceEntity);  //Convert Entity to Dto
+
+        return new ResponseEntity<>(
+                updatedAttendanceDto,
+                HttpStatus.OK
+        );
+    }
+
+    //Delete Attendance
 }

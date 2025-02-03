@@ -15,10 +15,13 @@ public interface EmployeeService {
     //Read one Employee
     Optional<Employee> findOneEmployee(Long id);
 
-    //Check if Employee exists
-    boolean employeeExists(Long id);
-
     //Employee partial update
     Employee partialUpdateEmployee(Long id, Employee employeeEntity);
+
+    //Employee full update
+    Employee fullUpdateEmployee(Long id, Employee employeeEntity);
+
+    //Delete Employee
+    void deleteEmployee(Long id);
     
 }

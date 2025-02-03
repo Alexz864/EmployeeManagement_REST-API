@@ -54,11 +54,11 @@ public class EmployeeController {
     }
 
     //Read one Employee
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<EmployeeDto> getEmployee(@PathVariable("id") Long id) {   //Reference the id passed in the URL
         Optional<Employee> foundEmployee = employeeService.findOneEmployee(id);
 
-        //If it finds a EmployeeEntity, convert it to Dto
+        //If it finds an EmployeeEntity, convert it to Dto
         return foundEmployee.map(employee -> {
             EmployeeDto employeeDto = employeeMapper.mapTo(employee);
             return new ResponseEntity<>(employeeDto, HttpStatus.OK);
@@ -66,15 +66,11 @@ public class EmployeeController {
     }
 
     //Partial update Employee
-    @PatchMapping(path = "{id}")
-    public ResponseEntity<EmployeeDto> partialUpdateRole(
+    @PatchMapping(path = "/{id}")
+    public ResponseEntity<EmployeeDto> partialUpdateEmployee(
             @PathVariable("id") Long id,
             @RequestBody EmployeeDto employeeDto
     ) {
-        //Check if the Employee exists
-        if(!employeeService.employeeExists(id)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
         Employee employeeEntity = employeeMapper.mapFrom(employeeDto); //Convert Dto to Entity
         Employee updatedEmployee = employeeService.partialUpdateEmployee(id, employeeEntity);   //Update Employee Entity
@@ -84,5 +80,29 @@ public class EmployeeController {
                 updatedEmployeeDto,
                 HttpStatus.OK
         );
+    }
+
+    //Full update Employee
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<EmployeeDto> fullUpdateEmployee(
+            @PathVariable("id") Long id,
+            @RequestBody EmployeeDto employeeDto
+    ) {
+
+        Employee employeeEntity = employeeMapper.mapFrom(employeeDto); //Convert Dto to Entity
+        Employee updatedEmployeeEntity = employeeService.fullUpdateEmployee(id, employeeEntity);   //Update Employee Entity
+        EmployeeDto updatedEmployeeDto = employeeMapper.mapTo(updatedEmployeeEntity);  //Convert Entity to Dto
+
+        return new ResponseEntity<>(
+                updatedEmployeeDto,
+                HttpStatus.OK
+        );
+    }
+
+    //Delete Employee
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> deleteEmployee(@PathVariable("id") Long id) {
+        employeeService.deleteEmployee(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

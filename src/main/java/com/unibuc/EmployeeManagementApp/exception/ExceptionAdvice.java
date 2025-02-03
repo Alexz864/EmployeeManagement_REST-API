@@ -30,4 +30,37 @@ public class ExceptionAdvice {
         return new ResponseEntity<>(errorResponseModel, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({EmailExistsException.class})
+    public ResponseEntity<ErrorResponseModel> handleEmailExistsException(EmailExistsException e) {
+
+        //Log the exception for debugging purposes
+        logger.error(e.getMessage());
+
+
+        //Build the structured error response
+        ErrorResponseModel errorResponseModel = new ErrorResponseModel(
+                HttpStatus.BAD_REQUEST.value(),
+                e.getMessage()
+        );
+
+        //Return the response entity with the appropriate status and error body
+        return new ResponseEntity<>(errorResponseModel, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({EmployeeNotFoundException.class})
+    public ResponseEntity<ErrorResponseModel> handleEmployeeNotFoundException(EmployeeNotFoundException e) {
+
+        //Log the exception for debugging purposes
+        logger.error(e.getMessage());
+
+
+        //Build the structured error response
+        ErrorResponseModel errorResponseModel = new ErrorResponseModel(
+                HttpStatus.BAD_REQUEST.value(),
+                e.getMessage()
+        );
+
+        //Return the response entity with the appropriate status and error body
+        return new ResponseEntity<>(errorResponseModel, HttpStatus.BAD_REQUEST);
+    }
 }

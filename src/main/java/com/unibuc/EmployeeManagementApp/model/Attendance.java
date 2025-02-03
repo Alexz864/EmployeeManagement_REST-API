@@ -22,7 +22,7 @@ public class Attendance {
     private Long id;
 
     //Many Attendances can be assigned to One Employee
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     @JsonBackReference // Prevents circular reference during serialization
     private Employee employee;

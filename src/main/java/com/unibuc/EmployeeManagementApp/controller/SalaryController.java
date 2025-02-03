@@ -39,4 +39,14 @@ public class SalaryController {
         );
     }
 
+    //Read all Salaries
+
+    //Read one Salary
+
+    //Partial update Salary
+
+    //Full update Salary
+
+    //Delete Salary
+
 }

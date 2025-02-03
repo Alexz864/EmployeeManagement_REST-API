@@ -25,11 +25,11 @@ public class Salary {
     @Column(nullable = false)
     private BigDecimal amount;
 
-    @Column(nullable = false)
+    @Column
     private LocalDate lastPaidDate;
 
     //One Salary is assigned to One Employee
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     @JsonBackReference // Prevents circular reference during serialization
     private Employee employee;

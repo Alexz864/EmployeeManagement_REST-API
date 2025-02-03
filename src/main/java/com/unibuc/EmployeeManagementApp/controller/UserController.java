@@ -38,4 +38,14 @@ public class UserController {
                 HttpStatus.CREATED
         );
     }
+
+    //Read all Users
+
+    //Read one User
+
+    //Partial update User
+
+    //Full update User
+
+    //Delete User
 }

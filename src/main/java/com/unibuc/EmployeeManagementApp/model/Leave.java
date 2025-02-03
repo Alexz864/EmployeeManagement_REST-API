@@ -32,7 +32,7 @@ public class Leave {
     private String reason;
 
     //Many Leave records can be assigned to an Employee
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     @JsonBackReference // Prevents circular reference during serialization
     private Employee employee;

@@ -44,4 +44,14 @@ public class PerformanceController {
                 HttpStatus.CREATED
         );
     }
+
+    //Read all Performances
+
+    //Read one Performance
+
+    //Partial update Performance
+
+    //Full update Performance
+
+    //Delete Performance
 }

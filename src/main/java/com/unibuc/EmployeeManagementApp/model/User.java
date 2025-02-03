@@ -27,12 +27,12 @@ public class User {
     private String password;
 
     //Many Users can have the same Role
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private Role role;
 
     //One User is identified as One Employee
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     @JsonBackReference // Prevents circular reference during serialization
     private Employee employee;

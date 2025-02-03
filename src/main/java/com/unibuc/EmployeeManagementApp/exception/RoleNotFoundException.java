@@ -2,7 +2,7 @@ package com.unibuc.EmployeeManagementApp.exception;
 
 public class RoleNotFoundException extends RuntimeException{
 
-    public RoleNotFoundException(String message) {
-        super("Role not found: " + message);
+    public RoleNotFoundException(String role) {
+        super("Role not found: " + role);
     }
 }
