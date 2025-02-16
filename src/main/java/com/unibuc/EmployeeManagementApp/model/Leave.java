@@ -37,7 +37,6 @@ public class Leave {
     @JsonBackReference // Prevents circular reference during serialization
     private Employee employee;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private LeaveStatus status;
 
