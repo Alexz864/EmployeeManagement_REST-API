@@ -1,22 +1,22 @@
 package com.unibuc.EmployeeManagementApp.service.impl;
-
+import com.unibuc.EmployeeManagementApp.exception.EmailExistsException;
 import com.unibuc.EmployeeManagementApp.exception.EmployeeNotFoundException;
-import com.unibuc.EmployeeManagementApp.exception.RoleNotFoundException;
 import com.unibuc.EmployeeManagementApp.model.Employee;
+import com.unibuc.EmployeeManagementApp.model.Role;
 import com.unibuc.EmployeeManagementApp.repository.EmployeeRepository;
 import com.unibuc.EmployeeManagementApp.repository.RoleRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import java.util.Arrays;
+import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
-import static com.unibuc.EmployeeManagementApp.utils.TestDataUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class EmployeeServiceImplUnitTest {
 
     @Mock
@@ -28,127 +28,113 @@ class EmployeeServiceImplUnitTest {
     @InjectMocks
     private EmployeeServiceImpl employeeService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    @Test
+    void createEmployee_validInput_employeeCreated() {
+        Role role = new Role(1L, "Software Engineer", null, null);
+        Employee employee = new Employee(1L, "John", "Doe", "john.doe@example.com", "IT", "Senior Developer", role, null, null, null, null, null);
+
+        when(roleRepository.findByRoleName(role.getRoleName())).thenReturn(Optional.of(role));
+        when(employeeRepository.existsByEmail(employee.getEmail())).thenReturn(false);
+        when(employeeRepository.save(employee)).thenReturn(employee);
+
+        Employee createdEmployee = employeeService.createEmployee(employee);
+
+        assertNotNull(createdEmployee);
+        assertEquals(employee.getFirstName(), createdEmployee.getFirstName());
+        verify(employeeRepository, times(1)).save(employee);
     }
 
     @Test
-    void testCreateEmployee_Success() {
+    void createEmployee_existingEmail_throwsEmailExistsException() {
+        Role role = new Role(1L, "Software Engineer", null, null);
+        Employee employee = new Employee(1L, "John", "Doe", "john.doe@example.com", "IT", "Senior Developer", role, null, null, null, null, null);
 
-        when(roleRepository.findByRoleName("ADMIN")).thenReturn(Optional.of(role1));
-        when(employeeRepository.existsByEmail("john.doe@gmail.com")).thenReturn(false);
-        when(employeeRepository.save(employee1)).thenReturn(employee1);
+        when(roleRepository.findByRoleName(role.getRoleName())).thenReturn(Optional.of(role));
+        when(employeeRepository.existsByEmail(employee.getEmail())).thenReturn(true);
 
-        Employee savedEmployee = employeeService.createEmployee(employee1);
-
-        assertNotNull(savedEmployee);
-        assertEquals("John", savedEmployee.getFirstName());
-        assertEquals("Doe", savedEmployee.getLastName());
-        assertEquals("john.doe@gmail.com", savedEmployee.getEmail());
-        assertEquals("IT", savedEmployee.getDepartment());
-        assertEquals("Front-End Developer", savedEmployee.getDesignation());
-        assertEquals("ADMIN", savedEmployee.getRole().getRoleName());
-        verify(employeeRepository, times(1)).save(employee1);
+        assertThrows(EmailExistsException.class, () -> employeeService.createEmployee(employee));
+        verify(employeeRepository, never()).save(employee);
     }
 
     @Test
-    void testCreateEmployee_RoleNotFound() {
+    void findAllEmployees_employeesExist_returnsEmployeeList() {
+        Role role = new Role(1L, "Software Engineer", null, null);
+        Employee employee = new Employee(1L, "John", "Doe", "john.doe@example.com", "IT", "Senior Developer", role, null, null, null, null, null);
+        Employee employee2 = new Employee(1L, "Max", "Doe", "max.doe@example.com", "IT", "Junior Developer", role, null, null, null, null, null);
+        List<Employee> employees = List.of(employee, employee2);
 
-        when(roleRepository.findByRoleName("INVALID_ROLE")).thenReturn(Optional.empty());
+        when(employeeRepository.findAll()).thenReturn(employees);
 
-        assertThrows(RoleNotFoundException.class, () -> employeeService.createEmployee(employee1));
-        verify(employeeRepository, never()).save(any());
+        List<Employee> foundEmployees = employeeService.findAllEmployees();
+
+        assertEquals(2, foundEmployees.size());
+        assertEquals(employee.getFirstName(), foundEmployees.get(0).getFirstName());
+        assertEquals(employee2.getFirstName(), foundEmployees.get(1).getFirstName());
     }
 
     @Test
-    void testFindAllEmployees() {
+    void findOneEmployee_employeeExists_returnsEmployee() {
+        Long id = 1L;
+        Role role = new Role(1L, "Software Engineer", null, null);
+        Employee employee = new Employee(1L, "John", "Doe", "john.doe@example.com", "IT", "Senior Developer", role, null, null, null, null, null);
 
-        when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee1, employee2));
+        when(employeeRepository.findById(id)).thenReturn(Optional.of(employee));
 
-        List<Employee> employees = employeeService.findAllEmployees();
-
-        assertEquals(2, employees.size());
-        verify(employeeRepository, times(1)).findAll();
-    }
-
-    @Test
-    void testFindOneEmployee_Exists() {
-
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee1));
-
-        Optional<Employee> foundEmployee = employeeService.findOneEmployee(1L);
+        Optional<Employee> foundEmployee = employeeService.findOneEmployee(id);
 
         assertTrue(foundEmployee.isPresent());
-        assertEquals("John", foundEmployee.get().getFirstName());
-        verify(employeeRepository, times(1)).findById(1L);
+        assertEquals(employee.getFirstName(), foundEmployee.get().getFirstName());
     }
 
     @Test
-    void testFindOneEmployee_NotFound() {
+    void findOneEmployee_employeeNotFound_returnsEmptyOptional() {
+        Long id = 1L;
+        when(employeeRepository.findById(id)).thenReturn(Optional.empty());
 
-        when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
+        Optional<Employee> foundEmployee = employeeService.findOneEmployee(id);
 
-        Optional<Employee> foundEmployee = employeeService.findOneEmployee(1L);
-
-        assertFalse(foundEmployee.isPresent());
-        verify(employeeRepository, times(1)).findById(1L);
+        assertTrue(foundEmployee.isEmpty());
     }
 
     @Test
-    void testPartialUpdateEmployee_Success() {
+    void fullUpdateEmployee_employeeExists_employeeUpdated() {
+        Long id = 1L;
+        Role role = new Role(1L, "Software Engineer", null, null);
+        Employee existingEmployee = new Employee(1L, "John", "Doe", "john.doe@example.com", "IT", "Senior Developer", role, null, null, null, null, null);
+        Employee updatedEmployee = new Employee(1L, "Jane", "Smith", "jane.smith@example.com", "Sales", "Team Lead", role, null, null, null, null, null);
 
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee1));
-        when(roleRepository.findByRoleName("EMPLOYEE")).thenReturn(Optional.of(role1));
-        when(employeeRepository.save(any(Employee.class))).thenReturn(employee1);
+        when(employeeRepository.findById(id)).thenReturn(Optional.of(existingEmployee));
+        when(roleRepository.findByRoleName(role.getRoleName())).thenReturn(Optional.of(role));
+        when(employeeRepository.save(updatedEmployee)).thenReturn(updatedEmployee);
 
-        Employee result = employeeService.partialUpdateEmployee(1L, employee2);
+        Employee result = employeeService.fullUpdateEmployee(id, updatedEmployee);
 
-        assertEquals("Andrew", result.getFirstName());
-        verify(employeeRepository, times(1)).save(employee1);
+        assertNotNull(result);
+        assertEquals("Jane", result.getFirstName());
+        assertEquals("Smith", result.getLastName());
+        assertEquals("jane.smith@example.com", result.getEmail());
+        assertEquals("Team Lead", result.getDesignation());
+        assertEquals("Sales", result.getDepartment());
+        verify(employeeRepository, times(1)).save(updatedEmployee);
     }
 
     @Test
-    void testPartialUpdateEmployee_NotFound() {
-        when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
-
+    void fullUpdateEmployee_employeeNotFound_throwsEmployeeNotFoundException() {
+        Long id = 1L;
         Employee updatedEmployee = new Employee();
-        assertThrows(EmployeeNotFoundException.class, () -> employeeService.partialUpdateEmployee(1L, updatedEmployee));
-        verify(employeeRepository, never()).save(any());
+
+        when(employeeRepository.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(EmployeeNotFoundException.class, () -> employeeService.fullUpdateEmployee(id, updatedEmployee));
+        verify(employeeRepository, never()).save(any(Employee.class));
     }
 
     @Test
-    void testFullUpdateEmployee_Success() {
+    void deleteEmployee_employeeExists_employeeDeleted() {
+        Long id = 1L;
 
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee1));
-        when(roleRepository.findByRoleName("EMPLOYEE")).thenReturn(Optional.of(role2));
-        when(employeeRepository.save(any(Employee.class))).thenReturn(employee1);
+        employeeService.deleteEmployee(id);
 
-        Employee result = employeeService.fullUpdateEmployee(1L, employee2);
-
-        assertEquals("Andrew", result.getFirstName());
-        assertEquals("Back-End Developer", result.getDesignation());
-        assertEquals("EMPLOYEE", result.getRole().getRoleName());
-
-        verify(employeeRepository, times(1)).save(employee1);
-    }
-
-
-    @Test
-    void testFullUpdateEmployee_NotFound() {
-        Employee updatedEmployee = new Employee();
-        when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
-
-        assertThrows(EmployeeNotFoundException.class, () -> employeeService.fullUpdateEmployee(1L, updatedEmployee));
-        verify(employeeRepository, never()).save(any());
-    }
-
-    @Test
-    void testDeleteEmployee() {
-        doNothing().when(employeeRepository).deleteById(1L);
-
-        employeeService.deleteEmployee(1L);
-
-        verify(employeeRepository, times(1)).deleteById(1L);
+        verify(employeeRepository, times(1)).deleteById(id);
     }
 }
