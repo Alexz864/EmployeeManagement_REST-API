@@ -6,10 +6,11 @@ import com.unibuc.EmployeeManagementApp.model.Leave;
 import com.unibuc.EmployeeManagementApp.service.LeaveService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 //Leaves endpoint
 @RestController
@@ -41,12 +42,47 @@ public class LeaveController {
     }
 
     //Read all Leaves
+    @GetMapping
+    public List<LeaveDto> listLeaves() {
+        List<Leave> leaves = leaveService.findAllLeaves();
+
+        return leaves.stream()
+                .map(leaveMapper::mapTo)
+                .collect(Collectors.toList());
+    }
 
     //Read one Leave
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<LeaveDto> getLeave(@PathVariable("id") Long id) {
+        Optional<Leave> foundLeave = leaveService.findOneLeave(id);
 
-    //Partial update Leaves
+        //If it finds an LeaveEntity, convert it to Dto
+        return foundLeave.map(leave -> {
+            LeaveDto leaveDto = leaveMapper.mapTo(leave);
+            return new ResponseEntity<>(leaveDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 
     //Full update Leaves
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<LeaveDto> fullUpdateLeave(
+            @PathVariable("id") Long id,
+            @RequestBody LeaveDto leaveDto
+    ) {
+        Leave leaveEntity = leaveMapper.mapFrom(leaveDto);  //Convert Dto to Entity
+        Leave updatedLeaveEntity = leaveService.fullUpdateLeave(id, leaveEntity);   //Update Leave Entity
+        LeaveDto updatedLeaveDto = leaveMapper.mapTo(updatedLeaveEntity);   //Convert Entity to Dto
+
+        return new ResponseEntity<>(
+                updatedLeaveDto,
+                HttpStatus.OK
+        );
+    }
 
     //Delete Leaves
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> deleteLeave(@PathVariable("id") Long id) {
+        leaveService.deleteLeave(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

@@ -1,6 +1,6 @@
 package com.unibuc.EmployeeManagementApp.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +21,8 @@ public class Performance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate reviewDate;
 
     @Column(nullable = false)
@@ -31,8 +32,7 @@ public class Performance {
     private String comments;
 
     //Many Performance records can be assigned to an Employee
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "employee_id")
-    @JsonBackReference // Prevents circular reference during serialization
     private Employee employee;
 }

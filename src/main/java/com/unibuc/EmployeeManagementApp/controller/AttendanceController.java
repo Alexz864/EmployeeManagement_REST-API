@@ -75,14 +75,9 @@ public class AttendanceController {
             @PathVariable("id") Long id,
             @RequestBody AttendanceDto attendanceDto
     ) {
-        //Check if the Attendance exists
-        if(!attendanceService.attendanceExists(id)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        attendanceDto.setId(id);
 
         Attendance attendanceEntity = attendanceMapper.mapFrom(attendanceDto); //Convert Dto to Entity
-        Attendance updatedAttendanceEntity = attendanceService.createAttendance(attendanceEntity);   //Update Employee Entity
+        Attendance updatedAttendanceEntity = attendanceService.fullUpdateAttendance(id ,attendanceEntity);   //Update Attendance Entity
         AttendanceDto updatedAttendanceDto = attendanceMapper.mapTo(updatedAttendanceEntity);  //Convert Entity to Dto
 
         return new ResponseEntity<>(
@@ -92,4 +87,9 @@ public class AttendanceController {
     }
 
     //Delete Attendance
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> deleteAttendance(@PathVariable("id") Long id) {
+        attendanceService.deleteAttendance(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

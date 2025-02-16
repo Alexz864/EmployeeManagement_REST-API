@@ -37,7 +37,7 @@ public class Employee {
     private String designation;
 
     //Many employees can have the same Role
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 

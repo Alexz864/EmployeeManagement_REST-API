@@ -27,7 +27,7 @@ public class User {
     private String password;
 
     //Many Users can have the same Role
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 

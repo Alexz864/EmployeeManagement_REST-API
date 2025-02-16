@@ -20,7 +20,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     private final EmployeeRepository employeeRepository;
 
 
-    //Inject AttendanceRepository, EmployeeRepository Beans in constructor
+    //Inject Beans in constructor
     public AttendanceServiceImpl(
             AttendanceRepository attendanceRepository,
             EmployeeRepository employeeRepository
@@ -42,7 +42,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         //Assign the resolved Employee to the Attendance
         attendanceEntity.setEmployee(employee);
 
-        //Save the Employee
+        //Save the Attendance
         return attendanceRepository.save(attendanceEntity);
     }
 
@@ -61,10 +61,28 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceRepository.findById(id);
     }
 
-    //Check if Attendance exists
+    //Full update Attendance
     @Override
-    public boolean attendanceExists(Long id) {
-        return attendanceRepository.existsById(id);
+    public Attendance fullUpdateAttendance(Long id, Attendance attendanceEntity) {
+        attendanceEntity.setId(id);
+
+        return attendanceRepository.findById(id).map(existingAttendance -> {
+            existingAttendance.setAttendanceDate(attendanceEntity.getAttendanceDate());
+            existingAttendance.setPresent(attendanceEntity.getPresent());
+
+            Employee existingEmployee = employeeRepository.findByEmail(
+                    attendanceEntity.getEmployee().getEmail()
+            ).orElseThrow(() -> new EmployeeNotFoundException("")
+            );
+            existingAttendance.setEmployee(existingEmployee);
+
+            return attendanceRepository.save(existingAttendance);
+        }).orElseThrow(() -> new RuntimeException("Not found"));
     }
 
+    //Delete Attendance
+    @Override
+    public void deleteAttendance(Long id) {
+        attendanceRepository.deleteById(id);
+    }
 }

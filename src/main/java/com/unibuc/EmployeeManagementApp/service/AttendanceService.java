@@ -1,7 +1,6 @@
 package com.unibuc.EmployeeManagementApp.service;
 
 import com.unibuc.EmployeeManagementApp.model.Attendance;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -15,10 +14,10 @@ public interface AttendanceService {
     //Read one Attendance
     Optional<Attendance> findOneAttendance(Long id);
 
-    //Check if Attendance exists
-    boolean attendanceExists(Long id);
+    //Attendance full update
+    Attendance fullUpdateAttendance(Long id, Attendance attendanceEntity);
 
-//    //Delete Attendance
-//    void deleteAttendance(Long id);
+    //Delete Attendance
+    void deleteAttendance(Long id);
 
 }
